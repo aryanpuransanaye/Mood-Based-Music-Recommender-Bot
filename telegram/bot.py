@@ -1,6 +1,7 @@
 import telebot
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 from decouple import config
+import requests
 
 class Bot:
 
@@ -59,6 +60,32 @@ class Bot:
         @self.bot.message_handler(func=lambda m:m.text == '🔙 Back to Main Menu')
         def main_menu_handler(message):
             self.send_main_menu(message)
+
+        @self.bot.message_handler(func=lambda m:m.text in ['😁 Happy', '😞 Sad', '😪 Tired', '😰 Stressed', '🥰 In Love'])
+        def send_quote(message):
+            
+            url = 'http://127.0.0.1:8000/api/quote/random-quote/'
+            data = {
+                'mood': message.text
+            }
+
+            try:
+                response = requests.post(url, json=data)
+                response.raise_for_status()
+
+                quote_data = response.json()
+                text = f"💬 *{quote_data['text']}*\n\n— _{quote_data['author']}_"
+                self.bot.send_message(message.chat.id, text, parse_mode="Markdown")
+
+            except requests.exceptions.HTTPError as errh:
+                print("❌ HTTP Error:", errh)
+            except requests.exceptions.ConnectionError as errc:
+                print("❌ Connection Error:", errc)
+            except requests.exceptions.Timeout as errt:
+                print("❌ Timeout Error:", errt)
+            except requests.exceptions.RequestException as err:
+                print("❌ Other Error:", err)
+
 
     def run(self):
         self.bot.polling()
