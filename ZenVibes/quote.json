@@ -1,0 +1,77 @@
+[
+  {
+    "mood": "😁 Happy",
+    "quotes": [
+      {"text": "Happiness depends upon ourselves.", "author": "Aristotle"},
+      {"text": "Smile, breathe, and go slowly.", "author": "Thich Nhat Hanh"},
+      {"text": "Joy is not in things; it is in us.", "author": "Richard Wagner"},
+      {"text": "Be happy for this moment. This moment is your life.", "author": "Omar Khayyam"},
+      {"text": "Happiness is a direction, not a place.", "author": "Sydney J. Harris"},
+      {"text": "Choose to be optimistic, it feels better.", "author": "Dalai Lama"},
+      {"text": "The purpose of our lives is to be happy.", "author": "Dalai Lama"},
+      {"text": "Happiness is the best makeup.", "author": "Drew Barrymore"},
+      {"text": "Count your age by friends, not years.", "author": "John Lennon"},
+      {"text": "For every minute you are angry you lose sixty seconds of happiness.", "author": "Ralph Waldo Emerson"}
+    ]
+  },
+  {
+    "mood": "😞 Sad",
+    "quotes": [
+      {"text": "This too shall pass.", "author": "Persian Proverb"},
+      {"text": "Tough times never last, but tough people do.", "author": "Robert H. Schuller"},
+      {"text": "In the middle of difficulty lies opportunity.", "author": "Albert Einstein"},
+      {"text": "Sadness flies away on the wings of time.", "author": "Jean de La Fontaine"},
+      {"text": "The pain you feel today will be the strength you feel tomorrow.", "author": "Unknown"},
+      {"text": "Even the darkest night will end and the sun will rise.", "author": "Victor Hugo"},
+      {"text": "What hurts you teaches you.", "author": "Unknown"},
+      {"text": "Sometimes you have to accept the fact that certain things will never go back to how they used to be.", "author": "Unknown"},
+      {"text": "The wound is the place where the light enters you.", "author": "Rumi"},
+      {"text": "Every adversity, every failure, every heartache carries with it the seed of an equal or greater benefit.", "author": "Napoleon Hill"}
+    ]
+  },
+  {
+    "mood": "😪 Tired",
+    "quotes": [
+      {"text": "Sometimes the most productive thing you can do is rest.", "author": "Unknown"},
+      {"text": "Rest and self-care are so important. When you take time to replenish your spirit, it allows you to serve others better.", "author": "Eleanor Brownn"},
+      {"text": "Fatigue is the best pillow.", "author": "Benjamin Franklin"},
+      {"text": "Take rest; a field that has rested gives a bountiful crop.", "author": "Ovid"},
+      {"text": "You can't pour from an empty cup.", "author": "Unknown"},
+      {"text": "Even the strongest need to rest.", "author": "Unknown"},
+      {"text": "Sometimes you need to step outside, get some air, and remind yourself of who you are and who you want to be.", "author": "Unknown"},
+      {"text": "Energy and persistence conquer all things.", "author": "Benjamin Franklin"},
+      {"text": "The best cure for the body is a quiet mind.", "author": "Napoleon Bonaparte"},
+      {"text": "Slow down and everything you are chasing will come around and catch you.", "author": "John De Paola"}
+    ]
+  },
+  {
+    "mood": "😰 Stressed",
+    "quotes": [
+      {"text": "It's not stress that kills us, it is our reaction to it.", "author": "Hans Selye"},
+      {"text": "Stress is caused by being ‘here’ but wanting to be ‘there’.", "author": "Eckhart Tolle"},
+      {"text": "Sometimes the most important thing in a whole day is the rest we take between two deep breaths.", "author": "Etty Hillesum"},
+      {"text": "Give your stress wings and let it fly away.", "author": "Terri Guillemets"},
+      {"text": "You don’t have to control your thoughts. You just have to stop letting them control you.", "author": "Dan Millman"},
+      {"text": "Calm mind brings inner strength and self-confidence.", "author": "Dalai Lama"},
+      {"text": "Don't stress the could haves. If it should have, it would have.", "author": "Unknown"},
+      {"text": "Sometimes, the best thing you can do is not think, not wonder, not imagine, not obsess. Just breathe and have faith that everything will work out for the best.", "author": "Unknown"},
+      {"text": "Rule your mind or it will rule you.", "author": "Horace"},
+      {"text": "Every day brings new choices.", "author": "Martha Beck"}
+    ]
+  },
+  {
+    "mood": "🥰 In Love",
+    "quotes": [
+      {"text": "Love recognizes no barriers.", "author": "Maya Angelou"},
+      {"text": "The best thing to hold onto in life is each other.", "author": "Audrey Hepburn"},
+      {"text": "Where there is love there is life.", "author": "Mahatma Gandhi"},
+      {"text": "Love is composed of a single soul inhabiting two bodies.", "author": "Aristotle"},
+      {"text": "To love and be loved is to feel the sun from both sides.", "author": "David Viscott"},
+      {"text": "Love is when the other person's happiness is more important than your own.", "author": "H. Jackson Brown, Jr."},
+      {"text": "You don't love someone because they're perfect, you love them in spite of the fact that they're not.", "author": "Jodi Picoult"},
+      {"text": "True love stories never have endings.", "author": "Richard Bach"},
+      {"text": "Love is a friendship set to music.", "author": "Joseph Campbell"},
+      {"text": "Love cures people — both the ones who give it and the ones who receive it.", "author": "Karl Menninger"}
+    ]
+  }
+]
