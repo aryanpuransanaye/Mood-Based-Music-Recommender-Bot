@@ -1,6 +1,5 @@
 import telebot
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
-from decouple import config
 import requests
 
 class Bot:
@@ -8,7 +7,7 @@ class Bot:
     def __init__(self, token):
 
         self.bot = telebot.TeleBot(token)
-        
+
         self.menu_buttons_name = ['Choose your Mood', 'Bot Info', 'mood history', 'Creator']
         self.mood_buttons_name = ['😁 Happy', '😞 Sad', '😪 Tired', '😰 Stressed', '🥰 In Love']
         self.creator_buttons_name = {'GitHub':'https://github.com/aryanpuransanaye', 'Linkdin':'https://www.linkedin.com/in/aryan-puransanaye/'}
@@ -31,7 +30,7 @@ class Bot:
         self.bot.send_message(message.chat.id, 'Choos your mood: ', reply_markup=keyboard)
 
     def send_creator_menu(self, message):
-       
+
         inline_keyboard = InlineKeyboardMarkup(row_width=2)
         inline_keyboard.add(*[InlineKeyboardButton(text = key, url = value) for key, value in self.creator_buttons_name.items()])
 
@@ -63,10 +62,10 @@ class Bot:
 
         @self.bot.message_handler(func=lambda m:m.text in ['😁 Happy', '😞 Sad', '😪 Tired', '😰 Stressed', '🥰 In Love'])
         def send_quote(message):
-            
-            user_mood = (message.text).split()[1]
 
-            url = 'http://127.0.0.1:8000/api/recommendation/'
+            user_mood = str((message.text).split()[1])
+
+            url = 'https://aryanpuransanaye.pythonanywhere.com/api/recommendation/'
             data = {
                 'mood': user_mood
             }
@@ -79,17 +78,16 @@ class Bot:
                 quote_data = result.get('quote',{})
                 music_data = result.get('music',{})
 
-                text = f"💬 *{quote_data.get('text', 'No qoute')}*\n\n— _{quote_data.get('author', 'Unknown')}_"
-                self.bot.send_message(message.chat.id, text, parse_mode="Markdown")
+                caption = f"💬 *{quote_data.get('text', 'No qoute')}*\n\n— _{quote_data.get('author', 'Unknown')}_"
+
 
                 music_url = music_data.get('file_url')
-                music_title = music_data.get('title', 'Unknown Title')
-                music_artist = music_data.get('artist', 'Unknown Artist')
+                response = requests.get(music_url, timeout=60)
+                audio_data = response.content
 
-                caption = f"🎵 {music_title} — {music_artist}"
 
-                if music_url:
-                    self.bot.send_audio(message.chat.id, 'http://127.0.0.1:8000/media/music/Botri.m4a', caption=caption)
+                if audio_data:
+                    self.bot.send_audio(message.chat.id, audio_data, caption=caption, parse_mode="Markdown")
                 else:
                     self.bot.send_message(message.chat.id, "❌ There is no music for this mood")
 
@@ -109,8 +107,8 @@ class Bot:
 
 if __name__ == '__main__':
 
-    
-    TOKEN = config('TELEGRAM_BOT_TOKEN')
+
+    TOKEN = '7798028137:AAE24kOhRwB6cx5YR93uGyL8H2D43dVTndE'
     mood_bot = Bot(TOKEN)
     mood_bot.run()
 
