@@ -4,11 +4,11 @@ from tinytag import TinyTag
 class Music(models.Model):
 
     MOOD_CHOICES = [
-        ('happy', '😁 Happy'),
-        ('sad', '😞 Sad'),
-        ('tired', '😪 Tired'),
-        ('stressed', '😰 Stressed'),
-        ('love', '🥰 In Love'),
+        ('happy', 'Happy'),
+        ('sad', 'Sad'),
+        ('tired', 'Tired'),
+        ('stressed', 'Stressed'),
+        ('love', 'In Love'),
     ]
 
     title = models.CharField(max_length=255, blank=True, null=True)

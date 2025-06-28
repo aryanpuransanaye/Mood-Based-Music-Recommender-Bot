@@ -1,6 +1,6 @@
 [
   {
-    "mood": "😁 Happy",
+    "mood": "Happy",
     "quotes": [
       {"text": "Happiness depends upon ourselves.", "author": "Aristotle"},
       {"text": "Smile, breathe, and go slowly.", "author": "Thich Nhat Hanh"},
@@ -15,7 +15,7 @@
     ]
   },
   {
-    "mood": "😞 Sad",
+    "mood": "Sad",
     "quotes": [
       {"text": "This too shall pass.", "author": "Persian Proverb"},
       {"text": "Tough times never last, but tough people do.", "author": "Robert H. Schuller"},
@@ -30,7 +30,7 @@
     ]
   },
   {
-    "mood": "😪 Tired",
+    "mood": "Tired",
     "quotes": [
       {"text": "Sometimes the most productive thing you can do is rest.", "author": "Unknown"},
       {"text": "Rest and self-care are so important. When you take time to replenish your spirit, it allows you to serve others better.", "author": "Eleanor Brownn"},
@@ -45,7 +45,7 @@
     ]
   },
   {
-    "mood": "😰 Stressed",
+    "mood": "Stressed",
     "quotes": [
       {"text": "It's not stress that kills us, it is our reaction to it.", "author": "Hans Selye"},
       {"text": "Stress is caused by being ‘here’ but wanting to be ‘there’.", "author": "Eckhart Tolle"},
@@ -60,7 +60,7 @@
     ]
   },
   {
-    "mood": "🥰 In Love",
+    "mood": "In Love",
     "quotes": [
       {"text": "Love recognizes no barriers.", "author": "Maya Angelou"},
       {"text": "The best thing to hold onto in life is each other.", "author": "Audrey Hepburn"},

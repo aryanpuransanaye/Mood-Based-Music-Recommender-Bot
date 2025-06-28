@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     
     'Quote',
     'Music',
+    'Moodfusion',
 ]
 
 MIDDLEWARE = [

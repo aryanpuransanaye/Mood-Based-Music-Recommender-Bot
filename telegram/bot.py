@@ -64,18 +64,34 @@ class Bot:
         @self.bot.message_handler(func=lambda m:m.text in ['😁 Happy', '😞 Sad', '😪 Tired', '😰 Stressed', '🥰 In Love'])
         def send_quote(message):
             
-            url = 'http://127.0.0.1:8000/api/quote/random-quote/'
+            user_mood = (message.text).split()[1]
+
+            url = 'http://127.0.0.1:8000/api/recommendation/'
             data = {
-                'mood': message.text
+                'mood': user_mood
             }
 
             try:
                 response = requests.post(url, json=data)
                 response.raise_for_status()
+                result = response.json()
 
-                quote_data = response.json()
-                text = f"💬 *{quote_data['text']}*\n\n— _{quote_data['author']}_"
+                quote_data = result.get('quote',{})
+                music_data = result.get('music',{})
+
+                text = f"💬 *{quote_data.get('text', 'No qoute')}*\n\n— _{quote_data.get('author', 'Unknown')}_"
                 self.bot.send_message(message.chat.id, text, parse_mode="Markdown")
+
+                music_url = music_data.get('file_url')
+                music_title = music_data.get('title', 'Unknown Title')
+                music_artist = music_data.get('artist', 'Unknown Artist')
+
+                caption = f"🎵 {music_title} — {music_artist}"
+
+                if music_url:
+                    self.bot.send_audio(message.chat.id, 'http://127.0.0.1:8000/media/music/Botri.m4a', caption=caption)
+                else:
+                    self.bot.send_message(message.chat.id, "❌ There is no music for this mood")
 
             except requests.exceptions.HTTPError as errh:
                 print("❌ HTTP Error:", errh)
