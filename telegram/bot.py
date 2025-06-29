@@ -1,6 +1,7 @@
 import telebot
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 import requests
+import re
 
 class Bot:
 
@@ -63,8 +64,8 @@ class Bot:
         @self.bot.message_handler(func=lambda m:m.text in ['😁 Happy', '😞 Sad', '😪 Tired', '😰 Stressed', '🥰 In Love'])
         def send_quote(message):
 
-            user_mood = str((message.text).split()[1])
-
+            user_mood = re.sub(r'[^\w\s]', '', message.text).strip()
+            print(user_mood)
             url = 'https://aryanpuransanaye.pythonanywhere.com/api/recommendation/'
             data = {
                 'mood': user_mood
@@ -72,27 +73,20 @@ class Bot:
 
             try:
                 response = requests.post(url, json=data)
-                response.raise_for_status()
                 result = response.json()
 
                 quote_data = result.get('quote',{})
-                music_data = result.get('music',{})
-
                 caption = f"💬 *{quote_data.get('text', 'No qoute')}*\n\n— _{quote_data.get('author', 'Unknown')}_"
 
-
-                music_url = music_data.get('file_url')
-                response = requests.get(music_url, timeout=60)
-                audio_data = response.content
-
-
-                if audio_data:
+                music_data = result.get('music',{})
+                if music_data:
+                    music_url = music_data.get('file_url')
+                    response = requests.get(music_url, timeout=60)
+                    audio_data = response.content
                     self.bot.send_audio(message.chat.id, audio_data, caption=caption, parse_mode="Markdown")
                 else:
                     self.bot.send_message(message.chat.id, "❌ There is no music for this mood")
 
-            except requests.exceptions.HTTPError as errh:
-                print("❌ HTTP Error:", errh)
             except requests.exceptions.ConnectionError as errc:
                 print("❌ Connection Error:", errc)
             except requests.exceptions.Timeout as errt:

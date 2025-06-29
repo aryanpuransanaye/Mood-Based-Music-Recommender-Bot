@@ -12,7 +12,10 @@ class MusciSerializer(serializers.ModelSerializer):
 
     def get_file_url(self, obj):
 
-        request = self.context.get('request')
+        if not obj.audio_file:
+            return None
+
+        request = self.context.get("request")
         if request is None:
-            return obj.audio_file.url  
+            return obj.audio_file.url 
         return request.build_absolute_uri(obj.audio_file.url)

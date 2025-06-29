@@ -38,12 +38,12 @@ class RecommendationAPIView(APIView):
         random_music = random.choice(music)
 
         quote_ser = QuoteSerializer(random_quote)
-        music_ser = MusciSerializer(random_music, context={'request': request})
+        music_ser = MusciSerializer(random_music, context={'request': request} if random_music else None)
 
         return Response(
             {
                 'quote': quote_ser.data,
-                'music': music_ser.data
+                'music': music_ser.data if music_ser else {}
             },
             status=status.HTTP_200_OK
         )
