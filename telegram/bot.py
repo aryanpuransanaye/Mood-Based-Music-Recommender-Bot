@@ -62,42 +62,58 @@ class Bot:
             self.send_main_menu(message)
 
         @self.bot.message_handler(func=lambda m:m.text in ['😁 Happy', '😞 Sad', '😪 Tired', '😰 Stressed', '🥰 In Love'])
-        def send_quote(message):
+        def send_quote_music(message):
+            from views.recommendation_views import get_recommendations
+            from views.get_or_creat_user_mood import create_user_mood
 
             user_mood = re.sub(r'[^\w\s]', '', message.text).strip()
-            print(user_mood)
-            url = 'https://aryanpuransanaye.pythonanywhere.com/api/recommendation/'
-            data = {
-                'mood': user_mood
-            }
 
-            try:
-                response = requests.post(url, json=data)
-                result = response.json()
+            create_user_mood(user_mood, str(message.from_user.id))
 
-                quote_data = result.get('quote',{})
-                caption = f"💬 *{quote_data.get('text', 'No qoute')}*\n\n— _{quote_data.get('author', 'Unknown')}_"
+            audio_file, caption = get_recommendations(user_mood)
 
-                music_data = result.get('music',{})
-                if music_data:
-                    music_url = music_data.get('file_url')
-                    response = requests.get(music_url, timeout=60)
-                    audio_data = response.content
-                    self.bot.send_audio(message.chat.id, audio_data, caption=caption, parse_mode="Markdown")
+            if audio_file:
+                self.bot.send_audio(message.chat.id, audio_file, caption=caption, parse_mode="Markdown")
+            else:
+                self.bot.send_message(message.chat.id, "❌ There is no music for this mood")
+
+        @self.bot.message_handler(func=lambda m:m.text == 'mood history')
+        def send_mood_history(message):
+            from views.get_or_creat_user_mood import get_mood_history
+            
+            result = get_mood_history(str(message.from_user.id))
+            
+            if not result['ok']:
+                reply = "Sorry, couldn't fetch your mood history."
+            else:
+                moods = result['data']
+                if not moods:
+                    reply = "You don't have any mood history yet."
                 else:
-                    self.bot.send_message(message.chat.id, "❌ There is no music for this mood")
+                    lines = []
+                    for entry in moods:
+                        mood_name = entry.get('mood', 'Unknown')
+                        mood_date = entry.get('mood_date')
+                        
+                        if mood_date:
+                            from datetime import datetime
+                            try:
+                                dt = datetime.fromisoformat(mood_date)
+                                formatted_date = dt.strftime("%B %d, %Y at %H:%M")
+                            except Exception:
+                                formatted_date = mood_date
+                        else:
+                            formatted_date = "Unknown date"
+                        
+                        lines.append(f"On {formatted_date}, you felt *{mood_name}*.")
+                    
+                    reply = "\n".join(lines)
+            
+            self.bot.send_message(message.chat.id, reply, parse_mode="Markdown")
 
-            except requests.exceptions.ConnectionError as errc:
-                print("❌ Connection Error:", errc)
-            except requests.exceptions.Timeout as errt:
-                print("❌ Timeout Error:", errt)
-            except requests.exceptions.RequestException as err:
-                print("❌ Other Error:", err)
-
-
+    
     def run(self):
         self.bot.polling()
-
 
 if __name__ == '__main__':
 
