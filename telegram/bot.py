@@ -1,6 +1,6 @@
 import telebot
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
-import requests
+from decouple import config
 import re
 
 class Bot:
@@ -118,7 +118,7 @@ class Bot:
 if __name__ == '__main__':
 
 
-    TOKEN = '7798028137:AAE24kOhRwB6cx5YR93uGyL8H2D43dVTndE'
+    TOKEN = config('TELEGRAM_BOT_TOKEN')
     mood_bot = Bot(TOKEN)
     mood_bot.run()
 
