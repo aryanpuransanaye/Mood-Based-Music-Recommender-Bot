@@ -1,8 +1,9 @@
 import requests
+from decouple import config
 
 def get_recommendations(user_mood):
     print(user_mood)
-    url = 'https://aryanpuransanaye.pythonanywhere.com/api/recommendation/'
+    url = config('API_RECOMMENDATION_UR')
     data = {
         'mood': user_mood
         }

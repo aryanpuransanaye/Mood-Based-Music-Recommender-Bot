@@ -1,8 +1,9 @@
 import requests
+from decouple import config
 
 def create_user_mood(user_mood: str, bot_id: str) -> dict:
 
-    url = 'https://aryanpuransanaye.pythonanywhere.com/api/users-mood/'
+    url = config('API_USERS_MOOD_URL')
     payload = {'bot_user_id': bot_id, 'mood': user_mood}
 
     try:
@@ -16,8 +17,8 @@ def create_user_mood(user_mood: str, bot_id: str) -> dict:
         return {'ok': False, 'error': str(e)}
     
 def get_mood_history(bot_id: str) -> dict:
-    url = 'https://aryanpuransanaye.pythonanywhere.com/api/users-mood/'  
 
+    url = config('API_USERS_MOOD_URL')  
     params = {'bot_user_id': bot_id} 
 
     try:
