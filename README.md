@@ -1,7 +1,3 @@
-مطمئناً! این هم متن کامل README به‌روز شده با بخش ساختار پروژه به انگلیسی که خواستی، آماده کپی و استفاده:
-
----
-
 # MoodMaster Bot
 
 A smart Telegram bot that helps users manage their moods by recommending music and providing personalized motivational quotes using OpenAI’s GPT API.
