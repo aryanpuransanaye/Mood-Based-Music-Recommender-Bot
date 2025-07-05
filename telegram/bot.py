@@ -118,7 +118,7 @@ class Bot:
 if __name__ == '__main__':
 
 
-    TOKEN = '7798028137:AAE24kOhRwB6cx5YR93uGyL8H2D43dVTndE'
+    TOKEN = config('TELEGRAM_BOT_TOKEN')
     mood_bot = Bot(TOKEN)
     mood_bot.run()
 
