@@ -1,14 +1,17 @@
 info_text = '''
 🤖 MoodMaster Bot — Your Personal Mood Companion
 
-This intelligent bot uses OpenAI’s cutting-edge AI to:
-- Recommend music tailored to your current mood 🎵
-- Provide personalized motivational quotes to uplift your spirit 💬
-- Keep track of your mood history (coming soon!)
+This bot helps you:
 
-Our goal is to be your digital companion, bringing positivity and motivation through every high and low.
+🎵 Get music recommendations perfectly matched to your current mood
 
-Powered by OpenAI & Python 🐍
+💬 Receive personalized motivational quotes to uplift your spirit
+
+📅 Keep track of your mood history (coming soon!)
+
+Our mission is to be your digital companion, bringing positivity and motivation through every high and low.
+
+Powered by Python 🐍
 '''
 
 creator_text = '''
