@@ -2,7 +2,7 @@ import requests
 
 def get_recommendations(user_mood):
     print(user_mood)
-    url = 'http://127.0.0.1:8000/api/recommendation/'
+    url = 'https://aryanpuransanaye.pythonanywhere.com/api/recommendation/'
     data = {
         'mood': user_mood
         }
@@ -19,9 +19,13 @@ def get_recommendations(user_mood):
             music_url = music_data.get('file_url')
             response = requests.get(music_url, timeout=60)
             audio_data = response.content
-            return audio_data, caption
+            
+            music_title = music_data.get('title','Unknown')
+            music_artist = music_data.get('artist', 'Unknown')
+            
+            return audio_data, caption, music_title, music_artist
         else:
-            return None, "❌ There is no music for this mood"
+            return None, None, None, None
 
     except requests.exceptions.ConnectionError as errc:
         print("❌ Connection Error:", errc)

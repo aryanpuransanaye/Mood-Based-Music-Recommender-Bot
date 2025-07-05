@@ -70,12 +70,12 @@ class Bot:
 
             create_user_mood(user_mood, str(message.from_user.id))
 
-            audio_file, caption = get_recommendations(user_mood)
+            audio_file, caption, music_title, music_artist = get_recommendations(user_mood)
 
             if audio_file:
-                self.bot.send_audio(message.chat.id, audio_file, caption=caption, parse_mode="Markdown")
+                self.bot.send_audio(message.chat.id, audio=audio_file, caption=caption, title=music_title, performer=music_artist, parse_mode="Markdown")
             else:
-                self.bot.send_message(message.chat.id, "❌ There is no music for this mood")
+                self.bot.send_message(message.chat.id, '❌ There is no music for this mood')
 
         @self.bot.message_handler(func=lambda m:m.text == 'mood history')
         def send_mood_history(message):
@@ -92,7 +92,7 @@ class Bot:
                 else:
                     lines = []
                     for entry in moods:
-                        mood_name = entry.get('mood', 'Unknown')
+                        mood_name = entry.get('mood_name', 'Unknown')
                         mood_date = entry.get('mood_date')
                         
                         if mood_date:
@@ -118,7 +118,7 @@ class Bot:
 if __name__ == '__main__':
 
 
-    TOKEN = config('TELEGRAM_BOT_TOKEN')
+    TOKEN = '7798028137:AAE24kOhRwB6cx5YR93uGyL8H2D43dVTndE'
     mood_bot = Bot(TOKEN)
     mood_bot.run()
 

@@ -2,7 +2,7 @@ import requests
 
 def create_user_mood(user_mood: str, bot_id: str) -> dict:
 
-    url = 'http://127.0.0.1:8000/api/users-mood/'
+    url = 'https://aryanpuransanaye.pythonanywhere.com/api/users-mood/'
     payload = {'bot_user_id': bot_id, 'mood': user_mood}
 
     try:
@@ -16,7 +16,7 @@ def create_user_mood(user_mood: str, bot_id: str) -> dict:
         return {'ok': False, 'error': str(e)}
     
 def get_mood_history(bot_id: str) -> dict:
-    url = 'http://127.0.0.1:8000/api/users-mood/'  
+    url = 'https://aryanpuransanaye.pythonanywhere.com/api/users-mood/'  
 
     params = {'bot_user_id': bot_id} 
 
