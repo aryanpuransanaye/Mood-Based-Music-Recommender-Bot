@@ -1,3 +1,7 @@
+مطمئناً! این هم متن کامل README به‌روز شده با بخش ساختار پروژه به انگلیسی که خواستی، آماده کپی و استفاده:
+
+---
+
 # MoodMaster Bot
 
 A smart Telegram bot that helps users manage their moods by recommending music and providing personalized motivational quotes using OpenAI’s GPT API.
@@ -27,8 +31,8 @@ A smart Telegram bot that helps users manage their moods by recommending music a
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your_username/moodmaster-bot.git
-cd moodmaster-bot
+git clone https://github.com/aryanpuransanaye/Mood-Based-Music-Recommender-Bot.git
+cd Mood-Based-Music-Recommender-Bot
 ```
 
 2. Install dependencies:
@@ -47,17 +51,34 @@ pip install -r requirements.txt
 Run the bot:
 
 ```bash
-python bot.py
+python telegram/bot.py
 ```
 
 ---
 
 ## Project Structure
 
-* `bot.py` — Main Telegram bot logic and handlers.
-* `openai_api.py` — Integration with OpenAI API for motivational quotes.
-* `mood_handler.py` — Mood selection and related features.
-* `README.md` — This documentation file.
+```
+Mood-Based-Music-Recommender-Bot/
+│
+├── ZenVibes/                      # Backend Django project and apps
+│   ├── Users/                     # User management and moods app
+│   ├── Music/                     # Music-related app
+│   ├── Quotes/                    # Quotes management app
+│   ├── MoodFusion/                # Mood fusion and logic app
+│   ├── ZenVibes/                  # Core Django app (settings, URLs, etc.)
+│   ├── load_quotes.py             # Script to load quotes data
+│   └── manage.py                  # Django management script
+│
+├── telegram/                      # Telegram bot files
+│   ├── bot.py                    # Main bot logic and handlers
+│   ├── text_message.py           # Predefined bot text messages
+│   └── views/                    # API views for bot communication
+│       ├── get_or_create_user_mood.py
+│       └── recommendation_views.py
+│
+└── requirements.txt               # Python dependencies
+```
 
 ---
 
@@ -66,3 +87,7 @@ python bot.py
 Contributions are welcome! Feel free to open issues or submit pull requests.
 
 ---
+
+## Bot Usage
+
+To start interacting with the bot, you can visit the Telegram link: [@moodbasemusic\_bot](https://t.me/moodbasemusic_bot)
