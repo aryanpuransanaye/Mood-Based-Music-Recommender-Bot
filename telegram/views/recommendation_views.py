@@ -3,7 +3,7 @@ from decouple import config
 
 def get_recommendations(user_mood):
     print(user_mood)
-    url = config('API_RECOMMENDATION_UR')
+    url = config('API_RECOMMENDATION_URL')
     data = {
         'mood': user_mood
         }
