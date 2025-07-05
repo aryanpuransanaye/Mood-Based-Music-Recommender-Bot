@@ -8,9 +8,9 @@ A smart Telegram bot that helps users manage their moods by recommending music a
 
 * 🎵 Suggests music tailored to your current mood.
 * 💬 Provides motivational quotes based on your mood.
-* 🤖 Built with Python, TeleBot (pyTelegramBotAPI), and OpenAI’s GPT.
+* 🤖 Built with Python, TeleBot (pyTelegramBotAPI), and Django.
 * 🧑‍💻 Easy to extend and customize.
-* 🔄 Supports interactive menus and mood history (planned).
+* 🔄 Supports interactive menus and mood history.
 
 ---
 
