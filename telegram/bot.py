@@ -64,7 +64,7 @@ class Bot:
         @self.bot.message_handler(func=lambda m:m.text in ['😁 Happy', '😞 Sad', '😪 Tired', '😰 Stressed', '🥰 In Love'])
         def send_quote_music(message):
             from views.recommendation_views import get_recommendations
-            from views.get_or_creat_user_mood import create_user_mood
+            from telegram.views.get_or_create_user_mood import create_user_mood
 
             user_mood = re.sub(r'[^\w\s]', '', message.text).strip()
 
@@ -79,7 +79,7 @@ class Bot:
 
         @self.bot.message_handler(func=lambda m:m.text == 'mood history')
         def send_mood_history(message):
-            from views.get_or_creat_user_mood import get_mood_history
+            from telegram.views.get_or_create_user_mood import get_mood_history
             
             result = get_mood_history(str(message.from_user.id))
             

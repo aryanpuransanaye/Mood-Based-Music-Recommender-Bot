@@ -17,7 +17,7 @@ def get_recommendations(user_mood):
         music_data = result.get('music',{})
         if music_data:
             music_url = music_data.get('file_url')
-            response = requests.get(music_url, timeout=60)
+            response = requests.get(music_url, timeout=120)
             audio_data = response.content
             
             music_title = music_data.get('title','Unknown')
