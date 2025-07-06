@@ -43,7 +43,7 @@ class Bot:
         @self.bot.message_handler(commands=['start'])
         def start_handler(message):
             user_firsT_name = message.from_user.first_name
-            text = f'Hi {user_firsT_name}\nHow are you at this moment?'
+            text = f'Hi {user_firsT_name} 🥰\nHow are you doing right now?'
             self.send_main_menu(message, text)
 
         @self.bot.message_handler(func=lambda m: m.text == 'Choose your Mood')
