@@ -15,12 +15,12 @@ class Bot:
 
         self.setup_handlers()
 
-    def send_main_menu(self, message):
+    def send_main_menu(self, message, text='Choose an option below:'):
 
         keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
         keyboard.add(*[KeyboardButton(name) for name in self.menu_buttons_name])
 
-        self.bot.send_message(message.chat.id, 'Choos an option below: ', reply_markup=keyboard)
+        self.bot.send_message(message.chat.id, text, reply_markup=keyboard)
 
     def send_mood_menu(self, message):
 
@@ -42,7 +42,9 @@ class Bot:
 
         @self.bot.message_handler(commands=['start'])
         def start_handler(message):
-            self.send_main_menu(message)
+            user_firsT_name = message.from_user.first_name
+            text = f'Hi {user_firsT_name}\nHow are you at this moment?'
+            self.send_main_menu(message, text)
 
         @self.bot.message_handler(func=lambda m: m.text == 'Choose your Mood')
         def mood_menu_handler(message):
@@ -79,6 +81,7 @@ class Bot:
 
         @self.bot.message_handler(func=lambda m:m.text == 'mood history')
         def send_mood_history(message):
+            
             from views.get_or_create_user_mood import get_mood_history
             
             result = get_mood_history(str(message.from_user.id))
