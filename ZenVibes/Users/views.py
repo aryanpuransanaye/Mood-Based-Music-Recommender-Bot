@@ -10,6 +10,7 @@ class UserMoodView(APIView):
     def post(self, request):
         user_bot_id = request.data.get('bot_user_id')
         mood = request.data.get('mood')
+        mood_description = request.data.get('mood_description', '')
 
         if not mood or not user_bot_id:
             return Response({
@@ -23,6 +24,7 @@ class UserMoodView(APIView):
         data = {
             'user': user.id,
             'mood': mood_obj.id,
+            'mood_description': mood_description
         }
 
         serializer = UserMoodSerializer(data=data)
@@ -32,6 +34,7 @@ class UserMoodView(APIView):
             return Response({
                 'user_bot_id': user.bot_user_id,
                 'mood': mood_obj.name,
+                'mood_description': mood_description,
                 'mood_date': instance.mood_date.isoformat()
             }, status=status.HTTP_201_CREATED)
 

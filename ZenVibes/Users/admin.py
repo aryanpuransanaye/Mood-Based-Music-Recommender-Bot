@@ -19,7 +19,7 @@ class MoodTypeAdmin(admin.ModelAdmin):
 @admin.register(UserMood)
 class UserMoodAdmin(admin.ModelAdmin):
 
-    list_display = ['user', 'mood', 'mood_date']
+    list_display = ['user', 'mood', 'mood_description', 'mood_date']
     list_filter = ['user', 'mood']
     search_fields = ['user', 'mood']
     list_per_page = 20

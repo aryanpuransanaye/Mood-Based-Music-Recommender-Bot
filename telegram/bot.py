@@ -12,6 +12,7 @@ class Bot:
         self.menu_buttons_name = ['Choose your Mood', 'Bot Info', 'mood history', 'Creator']
         self.mood_buttons_name = ['😁 Happy', '😞 Sad', '😪 Tired', '😰 Stressed', '🥰 In Love']
         self.creator_buttons_name = {'GitHub':'https://github.com/aryanpuransanaye', 'Linkdin':'https://www.linkedin.com/in/aryan-puransanaye/'}
+        self.ask_user_mood_detail_buttons = {'I want':'mood_detail_yes', "I Don't Want":'mood_detail_no'}
 
         self.setup_handlers()
 
@@ -21,6 +22,13 @@ class Bot:
         keyboard.add(*[KeyboardButton(name) for name in self.menu_buttons_name])
 
         self.bot.send_message(message.chat.id, text, reply_markup=keyboard)
+
+    def ask_user_mood_detail(self, message):
+
+        inline_keyboard = InlineKeyboardMarkup(row_width=2)
+        inline_keyboard.add(*[InlineKeyboardButton(text = key, callback_data = value) for key, value in self.ask_user_mood_detail_buttons.items()])
+
+        self.bot.send_message(message.chat.id, 'Do You Want Tell Me About Your Mood?', reply_markup=inline_keyboard)
 
     def send_mood_menu(self, message):
 
@@ -37,6 +45,20 @@ class Bot:
 
         from text_message import creator_text
         self.bot.send_message(message.chat.id, creator_text, reply_markup=inline_keyboard)
+
+    def save_user_mood_and_send_music_and_quote(self, mood, description, chat_id):
+
+        from views.recommendation_views import get_recommendations
+        from views.get_or_create_user_mood import create_user_mood
+
+        create_user_mood(mood, description, str(chat_id))
+
+        audio_file, caption, music_title, music_artist = get_recommendations(mood)
+
+        if audio_file:
+            self.bot.send_audio(chat_id, audio=audio_file, caption=caption, title=music_title, performer=music_artist, parse_mode="Markdown")
+        else:
+            self.bot.send_message(chat_id, '❌ There is no music for this mood')
 
     def setup_handlers(self):
 
@@ -64,42 +86,52 @@ class Bot:
             self.send_main_menu(message)
 
         @self.bot.message_handler(func=lambda m:m.text in ['😁 Happy', '😞 Sad', '😪 Tired', '😰 Stressed', '🥰 In Love'])
-        def send_quote_music(message):
-            from views.recommendation_views import get_recommendations
-            from views.get_or_create_user_mood import create_user_mood
+        def ask_user_mood(message):
 
             user_mood = re.sub(r'[^\w\s]', '', message.text).strip()
+            self.temp_mood = user_mood 
 
-            create_user_mood(user_mood, str(message.from_user.id))
+            self.ask_user_mood_detail(message) 
 
-            audio_file, caption, music_title, music_artist = get_recommendations(user_mood)
 
-            if audio_file:
-                self.bot.send_audio(message.chat.id, audio=audio_file, caption=caption, title=music_title, performer=music_artist, parse_mode="Markdown")
+        @self.bot.callback_query_handler(func=lambda call:call.data in ['mood_detail_yes', 'mood_detail_no'])
+        def ask_detail(call):
+            
+            chat_id = call.message.chat.id
+            user_mood = self.temp_mood
+
+            if call.data == 'mood_detail_yes':
+                self.bot.send_message(chat_id, 'Feel free to tell me more about your mood 💬')
+
+                @self.bot.message_handler(content_types=['text'])
+                def receive_detail(detail_msg):
+                    mood_description = detail_msg.text
+                    self.save_user_mood_and_send_music_and_quote(user_mood, mood_description, chat_id)
             else:
-                self.bot.send_message(message.chat.id, '❌ There is no music for this mood')
+                self.save_user_mood_and_send_music_and_quote(user_mood, '', chat_id)
 
-        @self.bot.message_handler(func=lambda m:m.text == 'mood history')
+
+        @self.bot.message_handler(func=lambda m: m.text == 'mood history')
         def send_mood_history(message):
-            
             from views.get_or_create_user_mood import get_mood_history
-            
+            from datetime import datetime
+
             result = get_mood_history(str(message.from_user.id))
-            
+
             if not result['ok']:
-                reply = "Sorry, couldn't fetch your mood history."
+                reply = "Sorry, I couldn't retrieve your mood history at the moment. Please try again later."
             else:
                 moods = result['data']
                 if not moods:
-                    reply = "You don't have any mood history yet."
+                    reply = "You haven't recorded any moods yet. Tap 'Choose your Mood' to get started 😊"
                 else:
                     lines = []
                     for entry in moods:
                         mood_name = entry.get('mood_name', 'Unknown')
                         mood_date = entry.get('mood_date')
-                        
+                        mood_description = entry.get('mood_description', '')
+
                         if mood_date:
-                            from datetime import datetime
                             try:
                                 dt = datetime.fromisoformat(mood_date)
                                 formatted_date = dt.strftime("%B %d, %Y at %H:%M")
@@ -107,12 +139,19 @@ class Bot:
                                 formatted_date = mood_date
                         else:
                             formatted_date = "Unknown date"
-                        
-                        lines.append(f"On {formatted_date}, you felt *{mood_name}*.")
-                    
-                    reply = "\n".join(lines)
-            
+
+                        if not mood_description:
+                            mood_description = "No additional notes were added."
+
+                        line = f"🗓 On *{formatted_date}*, you felt *{mood_name}*."
+                        line += f"\n📝 Description: _{mood_description}_"
+
+                        lines.append(line)
+
+                    reply = "\n\n".join(lines)
+
             self.bot.send_message(message.chat.id, reply, parse_mode="Markdown")
+
 
     def run(self):
         self.bot.polling()

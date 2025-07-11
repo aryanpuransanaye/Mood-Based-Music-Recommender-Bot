@@ -2,7 +2,7 @@ import requests
 from decouple import config
 
 def get_recommendations(user_mood):
-    print(user_mood)
+
     url = config('API_RECOMMENDATION_URL')
     data = {
         'mood': user_mood
@@ -34,3 +34,5 @@ def get_recommendations(user_mood):
         print("❌ Timeout Error:", errt)
     except requests.exceptions.RequestException as err:
         print("❌ Other Error:", err)
+
+    return None, None, None, None

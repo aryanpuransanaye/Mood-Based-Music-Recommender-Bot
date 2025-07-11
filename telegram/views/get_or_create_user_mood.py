@@ -1,10 +1,10 @@
 import requests
 from decouple import config
 
-def create_user_mood(user_mood: str, bot_id: str) -> dict:
+def create_user_mood(user_mood: str, mood_detail:str, bot_id: str) -> dict:
 
     url = config('API_USERS_MOOD_URL')
-    payload = {'bot_user_id': bot_id, 'mood': user_mood}
+    payload = {'bot_user_id': bot_id, 'mood': user_mood, 'mood_description': mood_detail}
 
     try:
         response = requests.post(url, json=payload, timeout=15)
@@ -18,7 +18,7 @@ def create_user_mood(user_mood: str, bot_id: str) -> dict:
     
 def get_mood_history(bot_id: str) -> dict:
 
-    url = config('API_USERS_MOOD_URL')  
+    url = config('API_USERS_MOOD_URL')
     params = {'bot_user_id': bot_id} 
 
     try:

@@ -16,4 +16,4 @@ class UserMoodSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserMood
-        fields = ['user', 'mood', 'mood_name', 'mood_date']
+        fields = ['user', 'mood_description', 'mood', 'mood_name', 'mood_date']

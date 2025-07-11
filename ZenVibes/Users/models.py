@@ -10,4 +10,5 @@ class MoodType(models.Model):
 class UserMood(models.Model):
     user = models.ForeignKey(TelegramUser, on_delete=models.CASCADE)
     mood = models.ForeignKey(MoodType, on_delete=models.CASCADE)
+    mood_description = models.TextField(null=True, blank=True)
     mood_date = models.DateTimeField(auto_now_add=True) 
