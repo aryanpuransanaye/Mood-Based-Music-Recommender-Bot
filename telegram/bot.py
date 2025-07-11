@@ -114,7 +114,6 @@ class Bot:
             
             self.bot.send_message(message.chat.id, reply, parse_mode="Markdown")
 
-    
     def run(self):
         self.bot.polling()
 
