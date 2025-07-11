@@ -1,6 +1,6 @@
 # MoodMaster Bot
 
-A smart Telegram bot that helps users manage their moods by recommending music and providing personalized motivational quotes using OpenAI’s GPT API.
+A smart Telegram bot that helps users manage their moods by recommending music and providing personalized motivational quotes.
 
 ---
 
@@ -20,7 +20,6 @@ A smart Telegram bot that helps users manage their moods by recommending music a
 
 * Python 3.8+
 * Telegram bot token (from [BotFather](https://t.me/BotFather))
-* OpenAI API key (from [OpenAI](https://platform.openai.com/account/api-keys))
 
 ### Installation
 
@@ -40,7 +39,6 @@ pip install -r requirements.txt
 3. Set your API keys in the code or environment variables:
 
 * `YOUR_TELEGRAM_BOT_TOKEN`
-* `YOUR_OPENAI_API_KEY`
 
 ### Usage
 
