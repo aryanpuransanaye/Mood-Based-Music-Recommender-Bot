@@ -120,41 +120,55 @@ class Bot:
 
             if not result['ok']:
                 reply = "Sorry, I couldn't retrieve your mood history at the moment. Please try again later."
-            else:
-                moods = result['data']
-                if not moods:
-                    reply = "You haven't recorded any moods yet. Tap 'Choose your Mood' to get started 😊"
+                self.bot.send_message(message.chat.id, reply)
+                return
+
+            moods = result['data']
+            if not moods:
+                reply = "You haven't recorded any moods yet. Tap 'Choose your Mood' to get started 😊"
+                self.bot.send_message(message.chat.id, reply)
+                return
+
+            lines = []
+            for entry in moods:
+                mood_name = entry.get('mood_name', 'Unknown')
+                mood_date = entry.get('mood_date')
+                mood_description = entry.get('mood_description', '')
+
+                if mood_date:
+                    try:
+                        dt = datetime.fromisoformat(mood_date)
+                        formatted_date = dt.strftime("%B %d, %Y at %H:%M")
+                    except Exception:
+                        formatted_date = mood_date
                 else:
-                    lines = []
-                    for entry in moods:
-                        mood_name = entry.get('mood_name', 'Unknown')
-                        mood_date = entry.get('mood_date')
-                        mood_description = entry.get('mood_description', '')
+                    formatted_date = "Unknown date"
 
-                        if mood_date:
-                            try:
-                                dt = datetime.fromisoformat(mood_date)
-                                formatted_date = dt.strftime("%B %d, %Y at %H:%M")
-                            except Exception:
-                                formatted_date = mood_date
-                        else:
-                            formatted_date = "Unknown date"
+                if not mood_description:
+                    mood_description = "No additional notes were added."
 
-                        if not mood_description:
-                            mood_description = "No additional notes were added."
+                line = f"🗓 On *{formatted_date}*, you felt *{mood_name}*."
+                line += f"\n📝 Description: _{mood_description}_\n"
+                lines.append(line)
 
-                        line = f"🗓 On *{formatted_date}*, you felt *{mood_name}*."
-                        line += f"\n📝 Description: _{mood_description}_"
+            # ارسال در چند پیام در صورت نیاز
+            max_length = 4000
+            current_message = ""
 
-                        lines.append(line)
+            for line in lines:
+                if len(current_message) + len(line) < max_length:
+                    current_message += line + "\n\n"
+                else:
+                    self.bot.send_message(message.chat.id, current_message.strip(), parse_mode="Markdown")
+                    current_message = line + "\n\n"
 
-                    reply = "\n\n".join(lines)
-
-            self.bot.send_message(message.chat.id, reply, parse_mode="Markdown")
+            if current_message:
+                self.bot.send_message(message.chat.id, current_message.strip(), parse_mode="Markdown")
 
 
     def run(self):
         self.bot.polling()
+
 
 if __name__ == '__main__':
 
