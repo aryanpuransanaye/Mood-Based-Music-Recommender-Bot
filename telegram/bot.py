@@ -151,7 +151,6 @@ class Bot:
                 line += f"\n📝 Description: _{mood_description}_\n"
                 lines.append(line)
 
-            # ارسال در چند پیام در صورت نیاز
             max_length = 4000
             current_message = ""
 
