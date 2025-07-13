@@ -110,7 +110,8 @@ class Bot:
             else:
                 self.save_user_mood_and_send_music_and_quote(user_mood, '', chat_id, user_id)
                 self.user_temp_moods.pop(chat_id, None)
-        
+                
+            self.bot.answer_callback_query(call.id)
 
         @self.bot.message_handler(func=lambda m: m.chat.id in self.waiting_for_detail)
         def receive_detail(message):
