@@ -107,10 +107,6 @@ class Bot:
             if call.data == 'mood_detail_yes':
                 self.bot.send_message(chat_id, 'Feel free to tell me more about your mood 💬')
                 self.waiting_for_detail[chat_id] = (user_mood, user_id)
-                # @self.bot.message_handler(content_types=['text'])
-                # def receive_detail(detail_msg):
-                #     mood_description = detail_msg.text
-                #     self.save_user_mood_and_send_music_and_quote(user_mood, mood_description, chat_id, user_id)
             else:
                 self.save_user_mood_and_send_music_and_quote(user_mood, '', chat_id, user_id)
                 self.user_temp_moods.pop(chat_id, None)
