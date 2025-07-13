@@ -100,7 +100,7 @@ class Bot:
         def ask_detail(call):
             
             chat_id = call.message.chat.id
-            user_mood = self.user_temp_mood.get(chat_id)
+            user_mood = self.user_temp_moods.get(chat_id)
 
             if call.data == 'mood_detail_yes':
                 self.bot.send_message(chat_id, 'Feel free to tell me more about your mood 💬')
