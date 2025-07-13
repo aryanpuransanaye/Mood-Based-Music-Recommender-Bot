@@ -13,6 +13,8 @@ class Bot:
         self.mood_buttons_name = ['😁 Happy', '😞 Sad', '😪 Tired', '😰 Stressed', '🥰 In Love']
         self.creator_buttons_name = {'GitHub':'https://github.com/aryanpuransanaye', 'Linkdin':'https://www.linkedin.com/in/aryan-puransanaye/'}
         self.ask_user_mood_detail_buttons = {'I want':'mood_detail_yes', "I Don't Want":'mood_detail_no'}
+        
+        self.user_temp_moods = {}
 
         self.setup_handlers()
 
@@ -87,10 +89,10 @@ class Bot:
 
         @self.bot.message_handler(func=lambda m:m.text in ['😁 Happy', '😞 Sad', '😪 Tired', '😰 Stressed', '🥰 In Love'])
         def ask_user_mood(message):
-
+            
+            chat_id = message.chat.id
             user_mood = re.sub(r'[^\w\s]', '', message.text).strip()
-            self.temp_mood = user_mood 
-
+            self.user_temp_moods[chat_id] = user_mood
             self.ask_user_mood_detail(message) 
 
 
@@ -98,7 +100,7 @@ class Bot:
         def ask_detail(call):
             
             chat_id = call.message.chat.id
-            user_mood = self.temp_mood
+            user_mood = self.user_temp_mood.get(chat_id)
 
             if call.data == 'mood_detail_yes':
                 self.bot.send_message(chat_id, 'Feel free to tell me more about your mood 💬')
@@ -109,6 +111,8 @@ class Bot:
                     self.save_user_mood_and_send_music_and_quote(user_mood, mood_description, chat_id)
             else:
                 self.save_user_mood_and_send_music_and_quote(user_mood, '', chat_id)
+
+            self.user_temp_moods.pop(chat_id, None)
 
 
         @self.bot.message_handler(func=lambda m: m.text == 'mood history')

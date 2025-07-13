@@ -18,7 +18,7 @@ class UserMoodView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        user, _ = TelegramUser.objects.get_or_create(bot_user_id=user_bot_id)
+        user, _ = TelegramUser.objects.get_or_create(bot_user_id=str(user_bot_id))
         mood_obj, _ = MoodType.objects.get_or_create(name=mood)
 
         data = {
