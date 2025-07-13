@@ -101,7 +101,7 @@ class Bot:
         def ask_detail(call):
             
             chat_id = call.message.chat.id
-            user_id = call.message.from_user.id
+            user_id = call.from_user.id
             user_mood = self.user_temp_moods.get(chat_id)
 
             if call.data == 'mood_detail_yes':
@@ -115,7 +115,7 @@ class Bot:
                 self.save_user_mood_and_send_music_and_quote(user_mood, '', chat_id, user_id)
                 self.user_temp_moods.pop(chat_id, None)
         
-        
+
         @self.bot.message_handler(func=lambda m: m.chat.id in self.waiting_for_detail)
         def receive_detail(message):
             chat_id = message.chat.id
