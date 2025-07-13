@@ -15,6 +15,7 @@ class Bot:
         self.ask_user_mood_detail_buttons = {'I want':'mood_detail_yes', "I Don't Want":'mood_detail_no'}
         
         self.user_temp_moods = {}
+        self.waiting_for_detail = {}
 
         self.setup_handlers()
 
@@ -48,12 +49,12 @@ class Bot:
         from text_message import creator_text
         self.bot.send_message(message.chat.id, creator_text, reply_markup=inline_keyboard)
 
-    def save_user_mood_and_send_music_and_quote(self, mood, description, chat_id):
+    def save_user_mood_and_send_music_and_quote(self, mood, description, user_id, chat_id):
 
         from views.recommendation_views import get_recommendations
         from views.get_or_create_user_mood import create_user_mood
 
-        create_user_mood(mood, description, str(chat_id))
+        create_user_mood(mood, description, str(user_id))
 
         audio_file, caption, music_title, music_artist = get_recommendations(mood)
 
@@ -100,18 +101,27 @@ class Bot:
         def ask_detail(call):
             
             chat_id = call.message.chat.id
+            user_id = call.message.from_user.id
             user_mood = self.user_temp_moods.get(chat_id)
 
             if call.data == 'mood_detail_yes':
                 self.bot.send_message(chat_id, 'Feel free to tell me more about your mood 💬')
-
-                @self.bot.message_handler(content_types=['text'])
-                def receive_detail(detail_msg):
-                    mood_description = detail_msg.text
-                    self.save_user_mood_and_send_music_and_quote(user_mood, mood_description, chat_id)
+                self.waiting_for_detail[chat_id] = (user_mood, user_id)
+                # @self.bot.message_handler(content_types=['text'])
+                # def receive_detail(detail_msg):
+                #     mood_description = detail_msg.text
+                #     self.save_user_mood_and_send_music_and_quote(user_mood, mood_description, chat_id, user_id)
             else:
-                self.save_user_mood_and_send_music_and_quote(user_mood, '', chat_id)
-
+                self.save_user_mood_and_send_music_and_quote(user_mood, '', chat_id, user_id)
+                self.user_temp_moods.pop(chat_id, None)
+        
+        
+        @self.bot.message_handler(func=lambda m: m.chat.id in self.waiting_for_detail)
+        def receive_detail(message):
+            chat_id = message.chat.id
+            mood, user_id = self.waiting_for_detail.pop(chat_id)
+            mood_description = message.text
+            self.save_user_mood_and_send_music_and_quote(mood, mood_description, chat_id, user_id)
             self.user_temp_moods.pop(chat_id, None)
 
 
